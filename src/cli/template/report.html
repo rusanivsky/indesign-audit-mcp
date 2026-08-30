@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="uk" data-title-en="{{REPORT_TITLE_EN}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{REPORT_TITLE}}</title>
+
+<style>
+:root{
+  --ground:#FAF7F0;
+  --surface:#FFFFFF;
+  --surface-2:#F3EDE1;
+  --line:#E2D9C8;
+  --line-soft:#EDE5D6;
+  --ink:#1A1816;
+  --ink-2:#4A443D;
+  --muted:#7C7368;
+  --accent:#A81C2B;
+  --accent-soft:#F6E4E3;
+  --warn:#B4661F;
+  --warn-soft:#F8EBDA;
+  --ok:#3D6B4F;
+  --ok-soft:#E5EEE5;
+  --info:#5B5F7A;
+  --shadow:0 1px 2px rgba(26,24,22,.05), 0 8px 24px -16px rgba(26,24,22,.28);
+
+  --f-display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --f-body:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#171614;
+    --surface:#201F1C;
+    --surface-2:#282621;
+    --line:#3A3730;
+    --line-soft:#2E2C27;
+    --ink:#EFEADF;
+    --ink-2:#C6BFB2;
+    --muted:#8E867A;
+    --accent:#E4707C;
+    --accent-soft:#3A2226;
+    --warn:#DE9B4E;
+    --warn-soft:#33281A;
+    --ok:#7FB08D;
+    --ok-soft:#1E2A22;
+    --info:#A2A6C4;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#171614;
+  --surface:#201F1C;
+  --surface-2:#282621;
+  --line:#3A3730;
+  --line-soft:#2E2C27;
+  --ink:#EFEADF;
+  --ink-2:#C6BFB2;
+  --muted:#8E867A;
+  --accent:#E4707C;
+  --accent-soft:#3A2226;
+  --warn:#DE9B4E;
+  --warn-soft:#33281A;
+  --ok:#7FB08D;
+  --ok-soft:#1E2A22;
+  --info:#A2A6C4;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 96px}
+
+/* ---------- header ---------- */
+.masthead{padding:64px 0 28px;border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 18px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+}
+.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block}
+h1{
+  font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5.4vw,54px);
+  line-height:1.06;letter-spacing:-.015em;margin:0 0 16px;text-wrap:balance;
+}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{font-size:18px;line-height:1.55;color:var(--ink-2);max-width:62ch;margin:0 0 26px}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:8px}
+.fact{background:var(--surface);padding:14px 16px}
+.fact dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+.fact dd{margin:0;font-size:19px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.fact dd small{font-size:12px;color:var(--muted);font-variant-numeric:normal}
+
+/* ---------- progress ---------- */
+.tracker{
+  position:sticky;top:0;z-index:20;background:var(--ground);
+  border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:40px;
+}
+.tracker-in{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bar{flex:1 1 220px;height:6px;background:var(--line-soft);border-radius:3px;overflow:hidden;min-width:160px;display:flex}
+.bar i{display:block;height:100%;width:0;transition:width .25s ease}
+.bar i.done{background:var(--accent)}
+.bar i.kept{background:var(--muted);opacity:.45}
+.tracker b{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;font-weight:600}
+.tracker span{font-size:13px;color:var(--muted)}
+.legend{font-family:var(--f-mono);font-size:11px;color:var(--muted);display:flex;gap:14px;align-items:center;white-space:nowrap}
+.legend b{font-weight:600;font-size:11px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}
+.legend i.done{background:var(--accent)}
+.legend i.kept{background:var(--muted);opacity:.45}
+.btn{
+  font:inherit;font-size:12px;padding:5px 12px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink-2);border-radius:2px;cursor:pointer;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[disabled]{opacity:.35;cursor:default}
+.btn[disabled]:hover{border-color:var(--line);color:var(--ink-2)}
+.tracker-right{margin-left:auto;display:flex;gap:8px;align-items:stretch;flex:none;height:30px}
+.tracker-right .btn,
+.tracker-right .chip{
+  height:30px;display:inline-flex;align-items:center;justify-content:center;
+  padding-top:0;padding-bottom:0;line-height:1;margin:0;
+}
+.tracker-right .btn.icon{width:34px;padding-left:0;padding-right:0;font-size:15px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- sections ---------- */
+section{margin:0 0 56px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 6px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:27px;letter-spacing:-.01em;margin:0}
+.count{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:auto}
+.sec-note{font-size:14.5px;color:var(--muted);margin:12px 0 20px;max-width:70ch}
+
+/* ---------- tables ---------- */
+.scroll{overflow-x:auto;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:660px}
+thead th{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;text-align:left;padding:11px 14px;
+  border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap;
+}
+tbody td{padding:13px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--surface-2)}
+td.chk{width:38px;padding-right:0}
+td.what{min-width:250px}
+td.fix{color:var(--ink-2);min-width:200px}
+.what strong{font-weight:600;display:block;margin-bottom:3px}
+.what span{color:var(--muted);font-size:13.5px;display:block}
+
+input[type=checkbox]{
+  appearance:none;width:17px;height:17px;border:1.5px solid var(--muted);
+  border-radius:2px;cursor:pointer;position:relative;margin:2px 0 0;background:var(--surface);
+  flex:none;transition:background .12s,border-color .12s;
+}
+input[type=checkbox]:hover{border-color:var(--accent)}
+input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent)}
+input[type=checkbox]:checked::after{
+  content:"";position:absolute;left:5px;top:1px;width:4px;height:9px;
+  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(43deg);
+}
+input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* ✓ виправлено — зелений рядок */
+tbody tr.done td,tbody tr.done:hover td,
+tbody tr.fixed td,tbody tr.fixed:hover td{background:var(--ok-soft)}
+tbody tr.done td.fix,tbody tr.fixed td.fix{color:var(--ok)}
+tr.fixed td.what strong .sev{margin-right:7px;vertical-align:1px}
+
+/* ---------- chips ---------- */
+.pages{font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;line-height:1.9;color:var(--ink-2);word-spacing:-.1em}
+.pg{background:var(--surface-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:2px;white-space:nowrap}
+.sev{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 7px;border-radius:2px;white-space:nowrap;font-weight:500;display:inline-block;
+}
+.s-crit{background:var(--accent-soft);color:var(--accent)}
+.s-warn{background:var(--warn-soft);color:var(--warn)}
+.s-ok{background:var(--ok-soft);color:var(--ok)}
+
+/* ---------- clean list ---------- */
+.clean{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.clean div{background:var(--surface);padding:12px 15px;display:flex;gap:11px;align-items:flex-start;font-size:14px}
+.clean b{color:var(--ok);font-size:15px;line-height:1.3;flex:none}
+.clean span{color:var(--muted);display:block;font-size:12.5px;margin-top:2px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* ---------- callout ---------- */
+.callout{border-left:3px solid var(--accent);background:var(--surface);padding:16px 20px;margin:24px 0;font-size:14.5px;color:var(--ink-2);box-shadow:var(--shadow)}
+.callout b{color:var(--ink)}
+
+/* ---------- прибрати пункт ---------- */
+.stack{display:flex;flex-direction:column;align-items:center;gap:8px}
+button.x{
+  appearance:none;border:1px solid transparent;background:none;cursor:pointer;
+  width:21px;height:21px;line-height:1;border-radius:3px;padding:0;
+  color:var(--muted);font-family:var(--f-body);font-size:15px;
+  opacity:.3;transition:opacity .12s,color .12s,border-color .12s,background .12s;
+}
+tbody tr:hover button.x{opacity:1}
+button.x:hover{color:var(--accent);border-color:var(--line);background:var(--surface)}
+button.x:focus-visible{opacity:1;outline:2px solid var(--accent);outline-offset:1px}
+/* «лишаємо як є» — рядок лишається, але глушиться */
+tbody tr.kept td,
+tbody tr.kept:hover td{background:var(--surface-2)}
+tbody tr.kept td.what,
+tbody tr.kept td.fix,
+tbody tr.kept td.pages{color:var(--muted);opacity:.5;text-decoration:line-through;text-decoration-thickness:1px}
+tbody tr.kept td.what strong,
+tbody tr.kept td.what span,
+tbody tr.kept td.what em,
+tbody tr.kept .sev,
+tbody tr.kept .pg,
+tbody tr.kept code{color:inherit;text-decoration:inherit}
+tbody tr.kept .sev,tbody tr.kept .pg,tbody tr.kept code{background:transparent;border-color:transparent}
+/* на «лишаємо» чекмарк лишається живим: один клік → одразу «виправлено» */
+tbody tr.kept input[type=checkbox]{opacity:.4;border-color:var(--muted);transition:opacity .12s,border-color .12s}
+tbody tr.kept:hover input[type=checkbox]{opacity:1;border-color:var(--ok)}
+tbody tr.kept input[type=checkbox]:hover{opacity:1;border-color:var(--ok)}
+tbody tr.kept button.x{opacity:1;color:var(--ok);font-size:13px}
+/* мітка «лишаємо як є» — лише на позначених хрестиком рядках */
+td.what .keptTag{display:none}
+tbody tr.kept td.what .keptTag{
+  display:inline-block;margin-top:9px;
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);background:var(--line-soft);border:1px solid var(--line);
+  padding:3px 8px;border-radius:2px;text-decoration:none;opacity:1;
+}
+body.hide-kept tbody tr.kept{display:none}
+.chip{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 11px;border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  border-radius:2px;cursor:pointer;font-weight:500;
+}
+.chip[hidden]{display:none}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.chip.warn{background:var(--warn-soft);border-color:var(--warn);color:var(--warn);cursor:default}
+.chip.warn:hover{border-color:var(--warn);color:var(--warn)}
+
+/* ---------- перенесення стану між пристроями ---------- */
+.codepanel{flex-basis:100%;border-top:1px solid var(--line-soft);margin-top:10px;padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.codepanel[hidden]{display:none}
+.coderow{display:flex;gap:8px;align-items:stretch}
+.codefield{
+  flex:1 1 auto;min-width:0;font-family:var(--f-mono);font-size:12px;padding:6px 9px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:2px;
+}
+.codefield:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.coderow .btn{flex:none;white-space:nowrap}
+.codepanel p{font-size:12px;line-height:1.5;color:var(--muted);margin:0;max-width:74ch}
+.codepanel p.bad{color:var(--warn)}
+.codepanel p.good{color:var(--accent)}
+.codepanel p:empty{display:none}
+
+footer{border-top:1px solid var(--line);padding-top:20px;font-size:13px;color:var(--muted)}
+footer p{margin:0 0 8px;max-width:74ch}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:640px){
+  .masthead{padding-top:40px}
+  .wrap{padding:0 16px 64px}
+  /* На вузькому екрані трекер високий сам собою, а з відкритою панеллю з'їдав
+     третину екрана й тримав її в липкій шапці. Тому тут він звичайний блок. */
+  .tracker{position:static;padding:14px 0}
+  .tracker-in{gap:10px}
+  .legend{flex:1 1 100%;gap:14px}
+  .tracker-right{
+    margin-left:0;flex:1 1 100%;width:100%;height:auto;
+    flex-wrap:wrap;row-gap:8px;column-gap:8px;
+  }
+  .tracker-right .chip{flex:1 1 auto;min-width:0}
+  .tracker-right .btn.icon{flex:0 0 34px}
+  /* «Скинути» лишається вузьким: найширша ціль на екрані не має бути руйнівною */
+  .tracker-right #reset{flex:0 0 auto;margin-left:auto}
+  .coderow{flex-wrap:wrap}
+  .coderow .codefield{flex:1 1 100%}
+  .coderow .btn{flex:1 1 100%;padding-top:9px;padding-bottom:9px}
+}
+</style>
+
+<div class="wrap">
+
+<!-- ============ ШАПКА ============ -->
+<header class="masthead">
+  <p class="eyebrow"><span class="dot"></span>{{CHECK_TYPE}} · {{APP_AND_VERSION}} · {{DATE}}</p>
+  <h1>{{LAYOUT_NAME}} — <em>{{REPORT_KIND}}</em></h1>
+  <p class="lede">{{ONE_PARAGRAPH: what was run, with how many measurements, and what is below}} <span data-uk="Ставте " data-en="Put a ">Ставте </span><b>✓</b><span data-uk=" на виправленому. " data-en=" on what is fixed. "> на виправленому. </span><b>×</b><span data-uk=" під чекмарком означає «це не помилка, лишаємо як є»: пункт нікуди не зникає — він сіріє й закреслюється, але в прогресі рахується закритим, окремою смугою. Натиснути " data-en=" under the checkmark means “this is not an error, we are leaving it as is”: the item does not disappear — it greys out and is struck through, but counts as closed in the progress bar, in a band of its own. Press "> під чекмарком означає «це не помилка, лишаємо як є»: пункт нікуди не зникає — він сіріє й закреслюється, але в прогресі рахується закритим, окремою смугою. Натиснути </span><b>↩</b><span data-uk=" — повернути до роботи." data-en=" to put it back to work."> — повернути до роботи.</span></p>
+
+  <!-- 4–6 плиток. Тільки ВИМІРЯНІ числа. Нічого не вигадувати. -->
+  <!--
+    I2 — ЄДИНА ПРАВКА РОЗМІТКИ, ЯКОЮ ЦЯ КОПІЯ ВІДРІЗНЯЄТЬСЯ ВІД СКІЛА
+    (`~/.claude/skills/print-audit-report/assets/report-template.html`).
+    Копія лишається привезеною: блоки script і style тут байт у байт зі
+    скілом, і тест звірки (`tests/unit/cli-template.test.ts`) порівнює саме
+    їх, а не розмітку. Розмітка розійшлась НАВМИСНО, з однієї причини.
+
+    Плитка «Не виміряно» — плата за рулінг R46: критична родина,
+    яку не виміряли зовсім, тепер запалює ворота (код виходу «критично»), а
+    «Критичних» при цьому чесно лишається 0 — знахідок немає, бо не було
+    самого виміру. Без цієї плитки шапка суперечила б кодові виходу, і
+    людина в друкарні читала б «нуль критичних» на прогоні, який частини
+    макета не бачив узагалі. Одиниця та сама, що в сусідній «Перевірено
+    чисто», — перевірка, а не знахідка. Плиток тепер СІМ, тобто привезену
+    пораду вище («4–6 плиток») ця правка перевищує — свідомо, і саме з цієї
+    причини: шапка, що суперечить кодові виходу, гірша за сьому плитку.
+
+    Плитка стоїть П'ЯТОЮ, і числа шапки підставляються ПОЗИЦІЙНО
+    (`замінитиПоЧерзі` у `src/cli/audit.ts` іде по однакових токенах
+    по порядку, від початку файла), тож переставляти плитки місцями не
+    можна без правки того масиву. З тієї ж причини НІ тут, НІ в жодному
+    іншому коментарі не сміє стояти сам токен числа: коментар — така сама
+    частина файла, і токен у ньому забрав би значення першої плитки.
+  -->
+  <dl class="facts">
+    <div class="fact"><dt data-uk="Сторінок" data-en="Pages">Сторінок</dt><dd>{{N}} <small>{{FORMAT}}</small></dd></div>
+    <div class="fact"><dt data-uk="Критичних" data-en="Critical">Критичних</dt><dd>{{N}}</dd></div>
+    <div class="fact"><dt data-uk="Важливих" data-en="Important">Важливих</dt><dd>{{N}}</dd></div>
+    <div class="fact"><dt data-uk="Перевірено чисто" data-en="Checked clean">Перевірено чисто</dt><dd>{{N}}</dd></div>
+    <div class="fact"><dt data-uk="Не виміряно" data-en="Not measured">Не виміряно</dt><dd>{{N}}</dd></div>
+    <div class="fact"><dt>Overset</dt><dd>{{N}}</dd></div>
+    <div class="fact"><dt data-uk="Макс. фарба" data-en="Max. ink">Макс. фарба</dt><dd>{{N}}<small>%</small></dd></div>
+  </dl>
+</header>
+
+<!-- ============ ТРЕКЕР (не чіпати — сюди пише скрипт) ============ -->
+<div class="tracker">
+  <div class="tracker-in">
+    <b id="tally">0 / 0</b>
+    <div class="bar"><i class="done" id="fillDone"></i><i class="kept" id="fillKept"></i></div>
+    <span class="legend"><span><i class="done"></i><b id="nDone">0</b> <span data-uk="виправлено" data-en="fixed">виправлено</span></span><span><i class="kept"></i><b id="nKept">0</b> <span data-uk="лишаємо" data-en="left as is">лишаємо</span></span></span>
+    <span id="hint" class="sr"></span>
+    <span class="tracker-right">
+      <span class="chip warn" id="noSave" hidden title="Позначки живуть тільки до перезавантаження сторінки" data-uk-title="Позначки живуть тільки до перезавантаження сторінки" data-en-title="The marks live only until the page is reloaded" data-uk="Не зберігається" data-en="Not saved">Не зберігається</span>
+      <button class="chip" id="hideKept" type="button" hidden>Сховати лишені · 0</button>
+      <button class="chip" id="codeBtn" type="button" aria-pressed="false" aria-controls="codepanel" data-uk="Код стану" data-en="State code">Код стану</button>
+      <button class="btn icon" id="undo" type="button" title="Крок назад (⌘Z)" aria-label="Крок назад" data-uk-title="Крок назад (⌘Z)" data-en-title="Step back (⌘Z)" disabled>↶</button>
+      <button class="btn" id="reset" type="button" data-uk="Скинути" data-en="Reset">Скинути</button>
+      <button class="chip" id="lang" type="button" aria-pressed="false" title="Мова звіту · Report language" aria-label="Мова звіту · Report language">ENG</button>
+    </span>
+
+    <div class="codepanel" id="codepanel" hidden>
+      <p id="codeNote"></p>
+      <div class="coderow">
+        <input id="codeOut" class="codefield" readonly spellcheck="false" aria-label="Код стану — скопіювати" data-uk-title="Код стану — скопіювати" data-en-title="State code — copy it">
+        <button class="btn" id="codeCopy" type="button" data-uk="Копіювати" data-en="Copy">Копіювати</button>
+      </div>
+      <div class="coderow">
+        <input id="codeIn" class="codefield" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Вставте сюди код і натисніть «Застосувати»" aria-label="Код стану — застосувати" data-uk-ph="Вставте сюди код і натисніть «Застосувати»" data-en-ph="Paste the code here and press “Apply”" data-uk-title="Код стану — застосувати" data-en-title="State code — apply it">
+        <button class="btn" id="codeApply" type="button" data-uk="Застосувати" data-en="Apply">Застосувати</button>
+      </div>
+      <p id="codeMsg" role="status"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1. КРИТИЧНЕ ============ -->
+<!-- Сюди йде тільки те, що (а) неправда у вихідних відомостях, (б) зламається
+     при найменшій зміні верстки, або (в) уже видно оком на сторінці. -->
+<section id="crit">
+  <div class="sec-head"><h2 data-uk="Критичне" data-en="Critical">Критичне</h2><span class="sev s-crit" data-uk="блокує друк" data-en="stops the press">блокує друк</span><span class="count"></span></div>
+  <p class="sec-note">{{WHY_THESE_ITEMS_ARE_HERE}}</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th data-uk="Сторінки" data-en="Pages">Сторінки</th><th data-uk="Що не так" data-en="What is wrong">Що не так</th><th data-uk="Що робити" data-en="What to do">Що робити</th></tr></thead>
+    <tbody>
+      <!-- ШАБЛОН РЯДКА. data-k має бути УНІКАЛЬНИЙ у всьому документі. -->
+      <tr>
+        <td class="chk"><input type="checkbox" data-k="c1"></td>
+        <td class="pages"><span class="pg">{{PAGE}}</span> <span class="pg">{{PAGE}}</span></td>
+        <td class="what"><strong>{{WHAT_IS_WRONG — one sentence}}</strong><span>{{EVIDENCE: numbers, style names, a quotation from the layout}}</span></td>
+        <td class="fix">{{WHAT_TO_DO — an action, not a wish}}</td>
+      </tr>
+
+      <!-- Уже виправлений пункт: клас fixed + checked -->
+      <tr class="fixed">
+        <td class="chk"><input type="checkbox" data-k="c2" checked></td>
+        <td class="pages"><span class="pg">{{PAGE}}</span></td>
+        <td class="what"><strong><span class="sev s-ok">виправлено</span> {{WHAT_IT_WAS}}</strong><span>{{WHAT_WAS_DONE_AND_HOW_IT_WAS_VERIFIED}}</span></td>
+        <td class="fix">Зроблено {{DATE}}. {{Whether the file was saved}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 2. ВАЖЛИВЕ ============ -->
+<section id="major">
+  <div class="sec-head"><h2 data-uk="Важливе" data-en="Important">Важливе</h2><span class="sev s-warn" data-uk="до друку варто" data-en="worth doing before print">до друку варто</span><span class="count"></span></div>
+  <p class="sec-note">{{Setting defects and consistency. Does not stop the press, but is visible to the eye.}}</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th data-uk="Сторінки" data-en="Pages">Сторінки</th><th data-uk="Що не так" data-en="What is wrong">Що не так</th><th data-uk="Що робити" data-en="What to do">Що робити</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="chk"><input type="checkbox" data-k="m1"></td>
+        <td class="pages"><span class="pg">{{PAGE}}</span></td>
+        <td class="what"><strong>{{DEFECT}}</strong><span>{{NUMBERS}}</span></td>
+        <td class="fix">{{ACTION}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 3. ПЕРЕДДРУКАРСЬКИЙ ЧЕКЛИСТ ============ -->
+<!-- Постійний. Береться з references/prepress-checklist.md і НЕ скорочується
+     на око: пункт, який не стосується цієї роботи, лишається в таблиці
+     з поясненням «не стосується — чому», а не викидається. -->
+<section id="prepress">
+  <div class="sec-head"><h2 data-uk="Перед віддачею в друк" data-en="Before going to print">Перед віддачею в друк</h2><span class="sev s-warn" data-uk="чеклист" data-en="checklist">чеклист</span><span class="count"></span></div>
+  <p class="sec-note"><span data-uk="Постійний технічний чеклист. У колонці «стан» — " data-en="A permanent technical checklist. In the “state” column — ">Постійний технічний чеклист. У колонці «стан» — </span><b data-uk="виміряне" data-en="the measured">виміряне</b><span data-uk=" значення цієї роботи, а не «ок»." data-en=" value for this job, not “ok”."> значення цієї роботи, а не «ок».</span></p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th data-uk="Група" data-en="Group">Група</th><th data-uk="Що перевірити" data-en="What to check">Що перевірити</th><th data-uk="Стан у цій роботі" data-en="State in this job">Стан у цій роботі</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="chk"><input type="checkbox" data-k="pp1"></td>
+        <td class="pages"><span class="pg">шрифти</span></td>
+        <td class="what"><strong>{{ITEM}}</strong><span>{{WHY_IT_MATTERS}}</span></td>
+        <td class="fix">{{MEASURED: a concrete number, or “not measured — with what”}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 4. ПИТАННЯ ДО ДРУКАРНІ ============ -->
+<!-- Не дефекти. Рішення, яких документ прийняти не може: папір, машина, спуск. -->
+<section id="print">
+  <div class="sec-head"><h2 data-uk="Питання до друкарні" data-en="Questions for the print shop">Питання до друкарні</h2><span class="sev s-warn" data-uk="узгодити" data-en="to agree">узгодити</span><span class="count"></span></div>
+  <p class="sec-note" data-uk="Це не дефекти. Це рішення, які залежать від паперу, машини й скріплення." data-en="These are not defects. They are decisions that depend on the paper, the press and the binding.">Це не дефекти. Це рішення, які залежать від паперу, машини й скріплення.</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th data-uk="Тема" data-en="Topic">Тема</th><th data-uk="Що виміряно" data-en="What was measured">Що виміряно</th><th data-uk="Що спитати" data-en="What to ask">Що спитати</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="chk"><input type="checkbox" data-k="p1"></td>
+        <td class="what"><strong>{{TOPIC}}</strong></td>
+        <td class="fix">{{FACT_FROM_THE_LAYOUT}}</td>
+        <td class="fix">{{QUESTION}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 5. ПЕРЕВІРЕНО — ЧИСТО ============ -->
+<!-- ОБОВ'ЯЗКОВА секція. Без неї нуль знахідок не відрізнити від «не питали». -->
+<section id="clean">
+  <div class="sec-head"><h2 data-uk="Перевірено — чисто" data-en="Checked — clean">Перевірено — чисто</h2><span class="sev s-ok" data-uk="без зауважень" data-en="no remarks">без зауважень</span><span class="count">{{N}} <span data-uk="перевірок" data-en="checks">перевірок</span></span></div>
+  <p class="sec-note" data-uk="Що саме міряли й що вийшло. Нуль тут означає «шукали й не знайшли», а не «не питали»." data-en="What exactly was measured and what came out. A zero here means “we looked and found nothing”, not “we did not ask”.">Що саме міряли й що вийшло. Нуль тут означає «шукали й не знайшли», а не «не питали».</p>
+
+  <div class="clean">
+    <div><b>✓</b><div>{{WHAT_WAS_MEASURED}}<span>{{MEASUREMENT_NUMBER}}</span></div></div>
+  </div>
+
+  <div class="callout">
+    <b data-uk="Що ще виміряно й вийшло в нуль:" data-en="What else was measured and came out zero:">Що ще виміряно й вийшло в нуль:</b> {{LIST}}
+  </div>
+
+  <!-- ОБОВ'ЯЗКОВО. Межі приладу, а не документа. -->
+  <div class="callout">
+    <b data-uk="Чого перевірка НЕ бачила" data-en="What the check did NOT see">Чого перевірка НЕ бачила</b><span data-uk=" — щоб нуль не читався ширше, ніж він є." data-en=" — so that a zero is not read more widely than it is."> — щоб нуль не читався ширше, ніж він є.</span> {{WHICH_RULES_ARE_DISABLED, WHAT_IS_UNREACHABLE_TO_THE_SCRIPT, WHICH_SURFACES_WERE_NOT_WALKED}}
+  </div>
+</section>
+
+<footer>
+  <p><strong data-uk="Як зроблено." data-en="How it was done.">Як зроблено.</strong> {{FILE, APP, DATE}}. <span data-uk="Інструменти:" data-en="Tools:">Інструменти:</span> {{LIST_WITH_PARAMETERS}}. <span data-uk="Візуально переглянуто" data-en="Visually reviewed">Візуально переглянуто</span> {{N}} <span data-uk="розворотів." data-en="spreads.">розворотів.</span></p>
+  <p><strong>{{Whether anything was written to the document}}.</strong> {{If not — say so. If yes — what exactly, and whether it was saved.}}</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var KEY="maaam-audit-v2", KEY_K="maaam-audit-kept-v1";
+  var boxes=[].slice.call(document.querySelectorAll("input[type=checkbox][data-k]"));
+  var tally=document.getElementById("tally");
+  var fillDone=document.getElementById("fillDone");
+  var fillKept=document.getElementById("fillKept");
+  var nDone=document.getElementById("nDone");
+  var nKept=document.getElementById("nKept");
+  var hint=document.getElementById("hint");
+  var chip=document.getElementById("hideKept");
+  var undoBtn=document.getElementById("undo");
+  var state={}, kept={}, hiding=false, history=[];
+
+  // ---- мова звіту -----------------------------------------------------------
+  // Звіт читають двоє: друкарня, куди йде робота, і той, хто читає репозиторій
+  // англійською. Обрати одну мову означало б відібрати звіт у другого, тож
+  // кожен видимий рядок несе ОБИДВІ, а кнопка їх міняє.
+  //
+  // Тексти, які малює скрипт, живуть тут; тексти розмітки — в атрибутах
+  // data-uk/data-en самих елементів. Обидва шляхи потрібні: розмітка мусить
+  // читатись і БЕЗ скрипта (звіт, збережений друкарнею в PDF), а рядки, яких у
+  // розмітці немає, взяти більше нізвідки.
+  //
+  // Мова НЕ зберігається між перезавантаженнями — навмисно. Сторінка вже
+  // попереджає, що позначки живуть лише до перезавантаження; мова, яка б його
+  // пережила, брехала б про те, що ця сторінка пам'ятає.
+  var STR={
+    uk:{
+      langBtn:"ENG", langTitle:"Мова звіту · Report language",
+      codeShape:"Це не схоже на код стану.",
+      codeVersion:"Код зроблено іншою версією звіту.",
+      codeCount:function(a,b){ return "Код на "+a+" пунктів, а у звіті їх "+b+"."; },
+      codeBroken:"Код пошкоджено при копіюванні.",
+      codeShort:"Код неповний — скопійовано не все.",
+      saveOn:"Позначки зберігаються в цьому браузері. Код нижче переносить їх на інший пристрій: скопіювати тут — вставити там.",
+      saveOff:"Цей браузер не зберігає позначки для цієї сторінки — так буває на телефоні, бо звіт відкривається у вкладеному вікні. Зараз усе тримається лише до перезавантаження. Скопіюйте код перед виходом і вставте його, коли повернетесь.",
+      copied:"Код скопійовано.",
+      copyManual:"Код виділено — скопіюйте вручну.",
+      restored:"Стан відновлено з коду.",
+      keptTag:"лишаємо як є — не помилка",
+      markFixed:"Позначити виправленим — одразу, без повернення",
+      fixed:"Виправлено",
+      reopen:"Повернути пункт до роботи",
+      keepAsIs:"Не помилка — лишаємо як є",
+      hint:function(closed,total,done,keptN){ return closed+" з "+total+" закрито: "+done+" виправлено, "+keptN+" лишаємо як є"; },
+      undoSteps:function(n){ return "Крок назад (⌘Z) · кроків: "+n; },
+      undoNone:"Немає що скасовувати",
+      showKept:"Показати лишені · ", hideKept:"Сховати лишені · ",
+      doneWord:"виправлено", keptWord:"лишаємо", closedWord:" закрито"
+    },
+    en:{
+      langBtn:"УКР", langTitle:"Report language · Мова звіту",
+      codeShape:"This does not look like a state code.",
+      codeVersion:"The code was made by a different version of the report.",
+      codeCount:function(a,b){ return "The code is for "+a+" items, but the report has "+b+"."; },
+      codeBroken:"The code was corrupted while being copied.",
+      codeShort:"The code is incomplete — not all of it was copied.",
+      saveOn:"The marks are kept in this browser. The code below carries them to another device: copy here, paste there.",
+      saveOff:"This browser does not keep marks for this page — that happens on a phone, because the report opens in an embedded frame. For now everything lasts only until reload. Copy the code before you leave and paste it when you come back.",
+      copied:"Code copied.",
+      copyManual:"Code selected — copy it by hand.",
+      restored:"State restored from the code.",
+      keptTag:"leaving as is — not an error",
+      markFixed:"Mark as fixed — at once, with no going back",
+      fixed:"Fixed",
+      reopen:"Put the item back to work",
+      keepAsIs:"Not an error — leaving as is",
+      hint:function(closed,total,done,keptN){ return closed+" of "+total+" closed: "+done+" fixed, "+keptN+" left as is"; },
+      undoSteps:function(n){ return "Step back (⌘Z) · steps: "+n; },
+      undoNone:"Nothing to undo",
+      showKept:"Show the ones left · ", hideKept:"Hide the ones left · ",
+      doneWord:"fixed", keptWord:"left", closedWord:" closed"
+    }
+  };
+  var LANG = document.documentElement.getAttribute("lang")==="en" ? "en" : "uk";
+  // Український заголовок береться з самого документа, а не з другого токена.
+  // Токен заголовка вже стоїть у <title>, і дублювати його означало б додати
+  // в шаблон ще один плейсхолдер, а числа шапки підставляються ПОЗИЦІЙНО.
+  //
+  // І окремо: сам ЗАПИС плейсхолдера тут стояти не сміє. Коментар — така сама
+  // частина файла, тест забороняє будь-який незамінений плейсхолдер у готовому
+  // звіті, і згадка про нього в коментарі провалює саме цей тест. Та сама
+  // пастка вже названа в розмітці — і я в неї щойно потрапив.
+  var TITLE_UK = document.title;
+  function t(k){ return STR[LANG][k]; }
+
+  function snapshot(){
+    history.push(JSON.stringify({s:state,k:kept}));
+    if(history.length>60) history.shift();
+  }
+  function undo(){
+    if(!history.length) return;
+    var snap=JSON.parse(history.pop());
+    state=snap.s; kept=snap.k;
+    boxes.forEach(function(b){ b.checked=!!state[b.dataset.k]; });
+    save(); paint();
+  }
+  // Звіт живе в чужому (третьосторонньому) iframe, і мобільні браузери такому
+  // фрейму localStorage або забороняють, або чистять. Тому: пробуємо по-справжньому
+  // записати й прочитати назад, а якщо не вийшло — тримаємо стан у пам'яті й кажемо
+  // про це вголос, замість мовчазного catch{}. НЕ ПОВЕРТАТИ до голого localStorage.
+  var store=(function(){
+    var ls=null, ok=false, P="__probe__";
+    try{
+      ls=window.localStorage;
+      ls.setItem(P,"1"); ok=(ls.getItem(P)==="1"); ls.removeItem(P);
+    }catch(e){ ok=false; ls=null; }
+    var mem={};
+    return {
+      works:function(){ return ok; },
+      get:function(k){
+        if(ok){ try{ return ls.getItem(k); }catch(e){ ok=false; } }
+        return (k in mem) ? mem[k] : null;
+      },
+      set:function(k,v){
+        mem[k]=v;
+        if(!ok) return false;
+        try{ ls.setItem(k,v); if(ls.getItem(k)!==v){ ok=false; return false; } return true; }
+        catch(e){ ok=false; return false; }
+      }
+    };
+  })();
+
+  try{ state=JSON.parse(store.get(KEY)||"{}"); }catch(e){ state={}; }
+  try{ kept=JSON.parse(store.get(KEY_K)||"{}"); }catch(e){ kept={}; }
+
+  function save(){
+    var a=store.set(KEY,JSON.stringify(state));
+    var b=store.set(KEY_K,JSON.stringify(kept));
+    if(!(a&&b)) paintSave();
+  }
+
+  // ---- код стану: 2 біти на пункт, base64 — переносить прогрес між пристроями
+  var CODE_TAG="M1";
+  var noSave=document.getElementById("noSave");
+  var codeBtn=document.getElementById("codeBtn");
+  var codePanel=document.getElementById("codepanel");
+  var codeNote=document.getElementById("codeNote");
+  var codeOut=document.getElementById("codeOut");
+  var codeIn=document.getElementById("codeIn");
+  var codeMsg=document.getElementById("codeMsg");
+  var codeCopy=document.getElementById("codeCopy");
+  var codeApply=document.getElementById("codeApply");
+  var langBtn=document.getElementById("lang");
+  var warnedOnce=false;
+
+  function encodeState(){
+    var n=boxes.length, bytes=[];
+    for(var i=0;i<Math.ceil(n*2/8);i++) bytes.push(0);
+    boxes.forEach(function(b,i){
+      var k=b.dataset.k, v = kept[k] ? 2 : (b.checked ? 1 : 0);
+      bytes[i>>2] |= v << ((3-(i&3))*2);
+    });
+    var s="";
+    for(var j=0;j<bytes.length;j++) s+=String.fromCharCode(bytes[j]);
+    try{ return CODE_TAG+"."+n+"."+btoa(s).replace(/=+$/,""); }catch(e){ return ""; }
+  }
+  function decodeState(txt){
+    var m=String(txt||"").replace(/\s+/g,"").match(/^([A-Za-z0-9]+)\.(\d+)\.(.+)$/);
+    if(!m) return {err:t("codeShape")};
+    if(m[1]!==CODE_TAG) return {err:t("codeVersion")};
+    if(+m[2]!==boxes.length) return {err:t("codeCount")(m[2],boxes.length)};
+    var b64=m[3]; while(b64.length%4) b64+="=";
+    var raw; try{ raw=atob(b64); }catch(e){ return {err:t("codeBroken")}; }
+    if(raw.length < Math.ceil(boxes.length*2/8)) return {err:t("codeShort")};
+    var s={}, k={};
+    boxes.forEach(function(b,i){
+      var v=(raw.charCodeAt(i>>2) >> ((3-(i&3))*2)) & 3;
+      s[b.dataset.k]=(v===1);
+      if(v===2) k[b.dataset.k]=true;
+    });
+    return {state:s,kept:k};
+  }
+  function msg(x,cls){ codeMsg.textContent=x||""; codeMsg.className=cls||""; }
+  function setPanel(on){
+    codePanel.hidden=!on;
+    codeBtn.classList.toggle("on",on);
+    codeBtn.setAttribute("aria-pressed",String(on));
+  }
+  function paintSave(){
+    var ok=store.works();
+    noSave.hidden=ok;
+    codeNote.textContent = ok ? t("saveOn") : t("saveOff");
+    if(!ok && !warnedOnce){ warnedOnce=true; setPanel(true); }
+  }
+
+  codeBtn.addEventListener("click",function(){ setPanel(codePanel.hidden); msg(""); });
+  codeCopy.addEventListener("click",function(){
+    var x=codeOut.value;
+    try{ codeOut.focus(); codeOut.setSelectionRange(0,x.length); }catch(e){}
+    function manual(){
+      var done=false;
+      try{ done=document.execCommand("copy"); }catch(e){}
+      msg(done?t("copied"):t("copyManual"), done?"good":"");
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(x).then(function(){ msg(t("copied"),"good"); }, manual);
+    } else manual();
+  });
+  codeApply.addEventListener("click",function(){
+    var r=decodeState(codeIn.value);
+    if(r.err){ msg(r.err,"bad"); return; }
+    snapshot();
+    state=r.state; kept=r.kept;
+    boxes.forEach(function(b){ b.checked=!!state[b.dataset.k]; });
+    save(); paint();
+    codeIn.value="";
+    msg(t("restored"),"good");
+  });
+
+  // хрестик — під чекмарком, у тій самій комірці; плюс підпис «лишаємо як є»
+  boxes.forEach(function(cb){
+    var cell=cb.closest("td.chk"); if(!cell) return;
+    var stack=document.createElement("div"); stack.className="stack";
+    cell.insertBefore(stack, cb);
+    stack.appendChild(cb);
+    var btn=document.createElement("button");
+    btn.type="button"; btn.className="x"; btn.dataset.k=cb.dataset.k;
+    stack.appendChild(btn);
+    btn.addEventListener("click",function(){
+      var k=btn.dataset.k;
+      snapshot();
+      if(kept[k]){ delete kept[k]; }
+      else { kept[k]=true; state[k]=false; cb.checked=false; }  // «лишаємо» знімає галочку
+      save(); paint();
+    });
+    var tag=document.createElement("span"); tag.className="keptTag";
+    var what=cb.closest("tr").querySelector("td.what");
+    if(what) what.appendChild(tag);
+  });
+
+  function paint(){
+    var total=boxes.length, done=0, keptN=0;
+    boxes.forEach(function(b){
+      var k=b.dataset.k, row=b.closest("tr");
+      var isKept=!!kept[k];
+      if(isKept) keptN++; else if(b.checked) done++;
+      if(!row) return;
+      row.classList.toggle("kept", isKept);
+      row.classList.toggle("done", b.checked && !isKept);
+      b.title = isKept ? t("markFixed") : t("fixed");
+      var x=row.querySelector("button.x");
+      if(x){
+        x.textContent = isKept ? "↩" : "×";
+        x.title = isKept ? t("reopen") : t("keepAsIs");
+        x.setAttribute("aria-label", x.title);
+      }
+      var tag=row.querySelector(".keptTag");
+      if(tag) tag.textContent=t("keptTag");
+    });
+
+    var closed=done+keptN;
+    tally.textContent = closed+" / "+total;
+    fillDone.style.width = (done/total*100)+"%";
+    fillKept.style.width = (keptN/total*100)+"%";
+    nDone.textContent = done;
+    nKept.textContent = keptN;
+    hint.textContent = t("hint")(closed,total,done,keptN);
+    undoBtn.disabled = (history.length===0);
+    undoBtn.title = history.length ? t("undoSteps")(history.length) : t("undoNone");
+
+    codeOut.value = encodeState();
+    paintSave();
+
+    chip.hidden = (keptN===0);
+    chip.textContent = (hiding ? t("showKept") : t("hideKept"))+keptN;
+    chip.classList.toggle("on", hiding);
+    chip.setAttribute("aria-pressed", String(hiding));
+    if(keptN===0 && hiding){ hiding=false; document.body.classList.remove("hide-kept"); }
+
+    [].slice.call(document.querySelectorAll("section")).forEach(function(c0){
+      var c=c0.querySelector(".count");
+      var bs=[].slice.call(c0.querySelectorAll("input[type=checkbox][data-k]"));
+      if(!c||!bs.length) return;
+      var d=0,kk=0;
+      bs.forEach(function(b){ if(kept[b.dataset.k]) kk++; else if(b.checked) d++; });
+      var parts=[];
+      if(d) parts.push(d+" "+t("doneWord"));
+      if(kk) parts.push(kk+" "+t("keptWord"));
+      c.textContent = parts.length ? (d+kk)+" / "+bs.length+" · "+parts.join(" · ")
+                                   : "0 / "+bs.length+t("closedWord");
+    });
+  }
+
+  // Міняє мову ВСЬОГО звіту: і текстів розмітки (data-uk/data-en), і тих, що
+  // малює скрипт. Атрибути-підказки й placeholder мають власні пари, бо
+  // textContent їх не покриває.
+  function applyLang(l){
+    LANG=l;
+    document.documentElement.setAttribute("lang",l);
+    var titleEn=document.documentElement.getAttribute("data-title-en");
+    document.title = (l==="en" && titleEn) ? titleEn : TITLE_UK;
+    [].slice.call(document.querySelectorAll("[data-uk][data-en]")).forEach(function(el){
+      var v=el.getAttribute("data-"+l);
+      if(v!==null) el.textContent=v;
+    });
+    [].slice.call(document.querySelectorAll("[data-uk-title][data-en-title]")).forEach(function(el){
+      el.setAttribute("title", el.getAttribute("data-"+l+"-title"));
+      if(el.hasAttribute("aria-label")) el.setAttribute("aria-label", el.getAttribute("data-"+l+"-title"));
+    });
+    [].slice.call(document.querySelectorAll("[data-uk-ph][data-en-ph]")).forEach(function(el){
+      el.setAttribute("placeholder", el.getAttribute("data-"+l+"-ph"));
+    });
+    langBtn.textContent=t("langBtn");
+    langBtn.title=t("langTitle");
+    langBtn.setAttribute("aria-label", t("langTitle"));
+    langBtn.setAttribute("aria-pressed", String(l==="en"));
+    paint();
+  }
+  if(langBtn){
+    langBtn.addEventListener("click",function(){ applyLang(LANG==="uk"?"en":"uk"); });
+  }
+
+  boxes.forEach(function(b){
+    // збережений стан має пріоритет; інакше в стан заноситься те, що стоїть у розмітці
+    if(state[b.dataset.k]!==undefined) b.checked=!!state[b.dataset.k];
+    else state[b.dataset.k]=b.checked;
+    b.addEventListener("change",function(){
+      var k=b.dataset.k;
+      snapshot();
+      state[k]=b.checked;
+      if(b.checked && kept[k]) delete kept[k];   // з «лишаємо» одразу у «виправлено», одним кліком
+      save(); paint();
+    });
+  });
+
+  undoBtn.addEventListener("click", undo);
+  document.addEventListener("keydown",function(e){
+    if((e.metaKey||e.ctrlKey) && !e.shiftKey && (e.key==="z"||e.key==="Z"||e.key==="я"||e.key==="Я")){
+      if(history.length){ e.preventDefault(); undo(); }
+    }
+  });
+
+  chip.addEventListener("click",function(){
+    hiding=!hiding;
+    document.body.classList.toggle("hide-kept", hiding);
+    paint();
+  });
+
+  document.getElementById("reset").addEventListener("click",function(){
+    snapshot();
+    boxes.forEach(function(b){ b.checked=false; });
+    state={}; kept={}; hiding=false;
+    document.body.classList.remove("hide-kept");
+    save();
+    paint();
+  });
+
+  if(langBtn){ langBtn.textContent=t("langBtn"); langBtn.title=t("langTitle"); }
+  paint();
+})();
+</script>

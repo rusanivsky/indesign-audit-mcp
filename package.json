@@ -1,0 +1,56 @@
+{
+  "name": "indesign-audit-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Adobe InDesign on macOS: 24 tools that measure a live document, audit it for prepress and typographic defects, and apply confirmed fixes through a safety envelope.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rusanivsky/indesign-audit-mcp.git"
+  },
+  "homepage": "https://github.com/rusanivsky/indesign-audit-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/rusanivsky/indesign-audit-mcp/issues"
+  },
+  "author": "Kyrylo Rusanivsky",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "indesign",
+    "extendscript",
+    "prepress",
+    "typography",
+    "publishing"
+  ],
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "indesign-mcp": "./dist/server.js",
+    "indesign-audit": "./dist/cli/audit.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc && npm run copy:jsx",
+    "build:audit": "npm run build && node scripts/build-audit-bundle.mjs",
+    "copy:jsx": "mkdir -p dist/jsx dist/cli/template && cp src/jsx/*.jsx dist/jsx/ && cp src/cli/template/*.html dist/cli/template/",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:all": "npm run typecheck && vitest run --project unit && vitest run --project integration",
+    "typecheck": "tsc -p tsconfig.typecheck.json"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "pdfjs-dist": "^4.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "pdf-lib": "^1.17.1",
+    "typescript": "^5.5.0",
+    "vitest": "^3.2.7",
+    "tsx": "^4.19.2"
+  }
+}

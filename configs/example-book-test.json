@@ -1,0 +1,60 @@
+{
+  "edition": {
+    "title": "Example Book (TEST — copy for experiments)",
+    "docPath": "/path/to/_backups/Example Book TEST.indd"
+  },
+  "print": {
+    "minPpi": 300,
+    "maxTotalInk": 300,
+    "expectedInks": 4
+  },
+  "families": {
+    "color": {},
+    "geometry": {
+      "nearMissPt": 3
+    },
+    "spelling": {},
+    "typography": {},
+    "styles": {},
+    "pagination": {
+      "contents": {
+        "notApplicable": "Числа сторінок у змісті (35 шт.) не звірялися. По-перше, звіряти нема чого: всі 35 — інстанси текстової змінної, тобто сторінку проставляє InDesign сам, а не людина руками. По-друге, зіставити рядки змісту із заголовками в тілі книги тут нічим: 22 рядки «Зміст Пункти» не є в тілі окремими абзацами — вони стоять у тому самому абзаці, що й заголовок «H1 Підзаголовок», а той уже є парою для «Зміст Підрозділ». Найкраще можливе оголошення дало б 26 знахідок-артефактів і жодного перевіреного твердження. Зміст перевіряти очима, за роздруком."
+      },
+      "folio": {
+        "styleNames": [
+          "Колонтитул v1"
+        ]
+      },
+      "runningHead": {
+        "styleNames": [
+          "Колонтитул v1",
+          "Колонтитул v2"
+        ]
+      },
+      "headingStyles": [
+        "Назва розділу"
+      ]
+    },
+    "composition": {
+      "spacingMode": "style-bounds"
+    },
+    "layout": {},
+    "bibliography": {
+      "notApplicable": "у виданні немає бібліографії"
+    },
+    "sequences": {
+      "rules": [
+        {
+          "style": "Нумерація питань",
+          "mustBeSequential": true
+        }
+      ]
+    },
+    "extras": {
+      "bodyTextStyles": [
+        "Основний текст F",
+        "Основний текст L"
+      ]
+    }
+  }
+}

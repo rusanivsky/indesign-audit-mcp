@@ -1,0 +1,52 @@
+/*
+ * Конфіг ПЕРЕВІРКИ типів — на відміну від tsconfig.json, який описує ЗБІРКУ.
+ *
+ * Розділені вони не з любові до конфігів. `tsconfig.json` має `rootDir: "src"`
+ * і `outDir: "dist"`: додати туди `tests/**` не можна — tsc почав би вважати
+ * тести частиною збірки й скаржитись на вихід за межі rootDir. Тому перевірка
+ * живе окремо, з `noEmit` і без rootDir/outDir.
+ *
+ * Навіщо взагалі: до 2026-08-05 `npm run typecheck` тестів НЕ БАЧИВ, і це
+ * коштувало реальних дефектів, які не міг спіймати ніхто — vitest компілює
+ * через esbuild, тобто типи не перевіряє взагалі. Знайдено при вмиканні
+ * (199 помилок, усі мовчазні):
+ *
+ *   - хелпери `h`/`tail`/`head`/`broken` у detect-hyphens.test.ts вимагали від
+ *     викликача поля, які підставляли самі — 129 помилок з одного дефекту;
+ *   - `runJsx(...).catch((e) => e)` у runner.test.ts: успішний проміс не
+ *     відхилявся, тест падав на порівнянні `undefined` і скаржився не на ту
+ *     причину;
+ *   - фікстури `ContainerSnapshot` у propose.test.ts без `pageRuns`,
+ *     `oversetFrom`, `isMaster`, `kind`;
+ *   - фікстури `PageMeasure` не помітили, що в типі з'явилося ОБОВ'ЯЗКОВЕ поле
+ *     `guideCount` — саме цей випадок і виявив борг.
+ *
+ * Опції мусять збігатися з tsconfig.json (той самий strict, той самий
+ * noUncheckedIndexedAccess) — інакше перевірка буде м'якшою за збірку й
+ * пропустить те, що збірка вважає помилкою.
+ */
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    /*
+     * Суворіше за tsconfig.json навмисно — це перевірка, не збірка, і мертвий
+     * код збірці не заважає, а читачеві заважає. Ціна вмикання виявилась
+     * чотири місця, і жодне не було шумом: `describe()` у propose.ts діставав
+     * `kind`, якого не читав; `warningsFor()` у planner.ts — `start`;
+     * `makePlan()` у tools-corrections.test.ts приймав контейнери дублікатом
+     * і мовчки ігнорував їх (їх задає mockBridge), тобто код читався не так,
+     * як працював; плюс мертвий імпорт `vi`. Усі четверо виправлені, а не
+     * заглушені підкресленням.
+     */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
+}

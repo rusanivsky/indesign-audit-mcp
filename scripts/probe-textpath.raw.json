@@ -1,0 +1,626 @@
+{
+ "app": {
+  "version": "21.5.1.73"
+ },
+ "notes": [
+  "Читальність: modified до=true, після=true"
+ ],
+ "kinds": {
+  "TextFrame": 720,
+  "TextPath": 4
+ },
+ "suspects": [
+  {
+   "storyIndex": 21,
+   "containerIndex": 0,
+   "kind": {
+    "ctor": "TextPath",
+    "reflect": "TextPath",
+    "name": "TextPath"
+   },
+   "props": [
+    {
+     "prop": "id",
+     "ok": true,
+     "value": "4985"
+    },
+    {
+     "prop": "parentPage",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'parentPage' [рядок 91]"
+    },
+    {
+     "prop": "rotationAngle",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'rotationAngle' [рядок 92]"
+    },
+    {
+     "prop": "previousTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "nextTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "overflows",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent",
+     "ok": true,
+     "value": "[object Oval]"
+    },
+    {
+     "prop": "parent.constructor.name",
+     "ok": true,
+     "value": "Oval"
+    },
+    {
+     "prop": "parent.parentPage",
+     "ok": true,
+     "value": "[object Page]"
+    },
+    {
+     "prop": "parent.parentPage.name",
+     "ok": true,
+     "value": "592"
+    },
+    {
+     "prop": "parent.id",
+     "ok": true,
+     "value": "4984"
+    },
+    {
+     "prop": "parent.rotationAngle",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "parent.geometricBounds",
+     "ok": true,
+     "value": "311.48665349494,353.266596143831,372.188893927319,413.968836576245"
+    },
+    {
+     "prop": "parent.parent",
+     "ok": true,
+     "value": "[object Group]"
+    },
+    {
+     "prop": "geometricBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'geometricBounds' [рядок 108]"
+    },
+    {
+     "prop": "characters.length",
+     "ok": true,
+     "value": "15"
+    },
+    {
+     "prop": "characters[0].index",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "lines.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "paragraphs.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "contents.length",
+     "ok": true,
+     "value": "15"
+    },
+    {
+     "prop": "textFramePreferences",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'textFramePreferences' [рядок 114]"
+    },
+    {
+     "prop": "itemLayer.name",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'itemLayer' [рядок 115]"
+    },
+    {
+     "prop": "visibleBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'visibleBounds' [рядок 116]"
+    },
+    {
+     "prop": "insertionPoints.length",
+     "ok": true,
+     "value": "16"
+    },
+    {
+     "prop": "textColumns.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "reflect.properties.length",
+     "ok": true,
+     "value": "35"
+    }
+   ]
+  },
+  {
+   "storyIndex": 22,
+   "containerIndex": 0,
+   "kind": {
+    "ctor": "TextPath",
+    "reflect": "TextPath",
+    "name": "TextPath"
+   },
+   "props": [
+    {
+     "prop": "id",
+     "ok": true,
+     "value": "5009"
+    },
+    {
+     "prop": "parentPage",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'parentPage' [рядок 91]"
+    },
+    {
+     "prop": "rotationAngle",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'rotationAngle' [рядок 92]"
+    },
+    {
+     "prop": "previousTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "nextTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "overflows",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent",
+     "ok": true,
+     "value": "[object Oval]"
+    },
+    {
+     "prop": "parent.constructor.name",
+     "ok": true,
+     "value": "Oval"
+    },
+    {
+     "prop": "parent.parentPage",
+     "ok": true,
+     "value": "[object Page]"
+    },
+    {
+     "prop": "parent.parentPage.name",
+     "ok": true,
+     "value": "592"
+    },
+    {
+     "prop": "parent.id",
+     "ok": true,
+     "value": "5008"
+    },
+    {
+     "prop": "parent.rotationAngle",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "parent.geometricBounds",
+     "ok": true,
+     "value": "308.693605622277,353.732104122603,369.395846054656,414.434344555018"
+    },
+    {
+     "prop": "parent.parent",
+     "ok": true,
+     "value": "[object Group]"
+    },
+    {
+     "prop": "geometricBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'geometricBounds' [рядок 108]"
+    },
+    {
+     "prop": "characters.length",
+     "ok": true,
+     "value": "3"
+    },
+    {
+     "prop": "characters[0].index",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "lines.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "paragraphs.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "contents.length",
+     "ok": true,
+     "value": "3"
+    },
+    {
+     "prop": "textFramePreferences",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'textFramePreferences' [рядок 114]"
+    },
+    {
+     "prop": "itemLayer.name",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'itemLayer' [рядок 115]"
+    },
+    {
+     "prop": "visibleBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'visibleBounds' [рядок 116]"
+    },
+    {
+     "prop": "insertionPoints.length",
+     "ok": true,
+     "value": "4"
+    },
+    {
+     "prop": "textColumns.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "reflect.properties.length",
+     "ok": true,
+     "value": "35"
+    }
+   ]
+  },
+  {
+   "storyIndex": 103,
+   "containerIndex": 0,
+   "kind": {
+    "ctor": "TextPath",
+    "reflect": "TextPath",
+    "name": "TextPath"
+   },
+   "props": [
+    {
+     "prop": "id",
+     "ok": true,
+     "value": "58594"
+    },
+    {
+     "prop": "parentPage",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'parentPage' [рядок 91]"
+    },
+    {
+     "prop": "rotationAngle",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'rotationAngle' [рядок 92]"
+    },
+    {
+     "prop": "previousTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "nextTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "overflows",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent",
+     "ok": true,
+     "value": "[object Oval]"
+    },
+    {
+     "prop": "parent.constructor.name",
+     "ok": true,
+     "value": "Oval"
+    },
+    {
+     "prop": "parent.parentPage",
+     "ok": true,
+     "value": "[object Page]"
+    },
+    {
+     "prop": "parent.parentPage.name",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "parent.id",
+     "ok": true,
+     "value": "58593"
+    },
+    {
+     "prop": "parent.rotationAngle",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "parent.geometricBounds",
+     "ok": true,
+     "value": "524.156727585755,376.099273227113,567.334735050366,419.277280691724"
+    },
+    {
+     "prop": "parent.parent",
+     "ok": true,
+     "value": "[object Group]"
+    },
+    {
+     "prop": "geometricBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'geometricBounds' [рядок 108]"
+    },
+    {
+     "prop": "characters.length",
+     "ok": true,
+     "value": "15"
+    },
+    {
+     "prop": "characters[0].index",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "lines.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "paragraphs.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "contents.length",
+     "ok": true,
+     "value": "15"
+    },
+    {
+     "prop": "textFramePreferences",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'textFramePreferences' [рядок 114]"
+    },
+    {
+     "prop": "itemLayer.name",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'itemLayer' [рядок 115]"
+    },
+    {
+     "prop": "visibleBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'visibleBounds' [рядок 116]"
+    },
+    {
+     "prop": "insertionPoints.length",
+     "ok": true,
+     "value": "16"
+    },
+    {
+     "prop": "textColumns.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "reflect.properties.length",
+     "ok": true,
+     "value": "35"
+    }
+   ]
+  },
+  {
+   "storyIndex": 104,
+   "containerIndex": 0,
+   "kind": {
+    "ctor": "TextPath",
+    "reflect": "TextPath",
+    "name": "TextPath"
+   },
+   "props": [
+    {
+     "prop": "id",
+     "ok": true,
+     "value": "58619"
+    },
+    {
+     "prop": "parentPage",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'parentPage' [рядок 91]"
+    },
+    {
+     "prop": "rotationAngle",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'rotationAngle' [рядок 92]"
+    },
+    {
+     "prop": "previousTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "nextTextFrame",
+     "ok": true,
+     "value": "null"
+    },
+    {
+     "prop": "overflows",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent",
+     "ok": true,
+     "value": "[object Oval]"
+    },
+    {
+     "prop": "parent.constructor.name",
+     "ok": true,
+     "value": "Oval"
+    },
+    {
+     "prop": "parent.parentPage",
+     "ok": true,
+     "value": "[object Page]"
+    },
+    {
+     "prop": "parent.parentPage.name",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "parent.id",
+     "ok": true,
+     "value": "58618"
+    },
+    {
+     "prop": "parent.rotationAngle",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "parent.geometricBounds",
+     "ok": true,
+     "value": "522.170009450895,376.430392916256,565.348016915505,419.608400380867"
+    },
+    {
+     "prop": "parent.parent",
+     "ok": true,
+     "value": "[object Group]"
+    },
+    {
+     "prop": "geometricBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'geometricBounds' [рядок 108]"
+    },
+    {
+     "prop": "characters.length",
+     "ok": true,
+     "value": "3"
+    },
+    {
+     "prop": "characters[0].index",
+     "ok": true,
+     "value": "0"
+    },
+    {
+     "prop": "lines.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "paragraphs.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "contents.length",
+     "ok": true,
+     "value": "3"
+    },
+    {
+     "prop": "textFramePreferences",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'textFramePreferences' [рядок 114]"
+    },
+    {
+     "prop": "itemLayer.name",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'itemLayer' [рядок 115]"
+    },
+    {
+     "prop": "visibleBounds",
+     "ok": false,
+     "err": "Error: Object does not support the property or method 'visibleBounds' [рядок 116]"
+    },
+    {
+     "prop": "insertionPoints.length",
+     "ok": true,
+     "value": "4"
+    },
+    {
+     "prop": "textColumns.length",
+     "ok": true,
+     "value": "1"
+    },
+    {
+     "prop": "hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "parent hasOwnProperty('baseName')",
+     "ok": true,
+     "value": "false"
+    },
+    {
+     "prop": "reflect.properties.length",
+     "ok": true,
+     "value": "35"
+    }
+   ]
+  }
+ ],
+ "threw": [],
+ "docName": "Book-B 2022 Print 3 copy.indd",
+ "pageCount": 592,
+ "modifiedBefore": true,
+ "storyCount": 164,
+ "containerTotal": 724,
+ "ms": 1267,
+ "modifiedAfter": true
+}
